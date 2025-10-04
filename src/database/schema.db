@@ -9,6 +9,7 @@ CREATE TABLE users (
   gender ENUM('M','F','O'),
   cpf VARCHAR(14) UNIQUE,
   blood_type ENUM('A+','A-','B+','B-','AB+','AB-','O+','O-'),
+  cep VARCHAR(9),
   address VARCHAR(255),
   city VARCHAR(100),
   state VARCHAR(50),
