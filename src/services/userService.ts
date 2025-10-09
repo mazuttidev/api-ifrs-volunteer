@@ -9,32 +9,38 @@ export const registerUser = async (data: Omit<User, "id">): Promise<string> => {
   existingUser = await userModel.findByCPF(data.cpf!);
   if (existingUser) throw new Error("CPF já cadastrado.");
 
-  user.password = await bcrypt.hash(user.password, 10);
+    let hashedPassword = await bcrypt.hash(user.password!, 10);
+    user.password! = hashedPassword;
 
   let insertId = await user.save();
 
   return insertId;
 };
 
-export const updateUser = async (id: string, data: Partial<User>): Promise<void> => {
-  const user = new userModel({ id, data});
+export const updateUser = async (data: Partial<User>): Promise<void> => {
+  const user = new userModel(data);
   let existingUser = null;
   let hashedPassword = "";
   if (data.email) existingUser = await userModel.findByEmail(data.email);
   if (existingUser) throw new Error("E-mail já cadastrado.");
   if (data.cpf) existingUser = await userModel.findByCPF(data.cpf);
   if (existingUser) throw new Error("CPF já cadastrado.");
-  if (data.password) hashedPassword = await bcrypt.hash(data.password, 10);
+  if (data.password) {
+    hashedPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashedPassword;
+  }
 
   await user.update(data);
 };
 
-export async function getAllUsers(): Promise<Omit<User, "password">[]> {
-  const users = await userModel.findAll();
+export async function getAllUsers(): Promise<Omit<User, "password">[] | null> {
+  let users = await userModel.findAll();
+  // @ts-ignore
   return users;
 }
 
 export async function getUser(id: string): Promise<Omit<User, "password"> | null> {
-  const user = await userModel.findById(id);
+  let user = await userModel.findById(id);
+  // @ts-ignore
   return user;
 }

@@ -39,7 +39,8 @@ export async function updateUser(req: Request, res: Response) {
   try {
     const { id } = req.params;  
     const data = userSchema.partial().parse(req.body);
-    await userService.updateUser(id, data);
+    data.id = id;
+    await userService.updateUser(data);
 
     res.status(200).json({ message: "Usuário atualizado com sucesso." });
   } catch (err: any) {

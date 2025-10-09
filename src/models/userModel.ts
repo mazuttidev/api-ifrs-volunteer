@@ -114,18 +114,56 @@ export class User {
     );
   }
 
-  static async findAll(): Promise<User[]> {
+  static async findAll(): Promise<Omit<User, "password">[] | null> {
     const [rows] = await connection.query(`
-      SELECT * FROM users
+      SELECT  name,
+              email,
+              role,
+              phone,
+              birth_date,
+              gender,
+              cpf,
+              blood_type,
+              cep,
+              address,
+              city,
+              state,
+              availability,
+              skills,
+              emergency_contact,
+              created_at,
+              updated_at
+      FROM users
     `);
     // @ts-ignore
     return rows.map((row) => new User(row));
   }
 
-  static async findById(id: string): Promise<User | null> {
-    const [rows] = await connection.query("SELECT * FROM users WHERE id = ?", [
-      id,
-    ]);
+  static async findById(id: string): Promise<Omit<User, "password"> | null> {
+    const [rows] = await connection.query(
+      `
+      SELECT  name,
+              email,
+              role,
+              phone,
+              birth_date,
+              gender,
+              cpf,
+              blood_type,
+              cep,
+              address,
+              city,
+              state,
+              availability,
+              skills,
+              emergency_contact,
+              created_at,
+              updated_at
+      FROM users 
+      WHERE id = ?
+    `,
+      [id]
+    );
     // @ts-ignore
     const user = rows[0];
     return user ? new User(user) : null;
@@ -133,7 +171,27 @@ export class User {
 
   static async findByEmail(email: string): Promise<User | null> {
     const [rows] = await connection.query(
-      "SELECT * FROM users WHERE email = ?",
+      `
+      SELECT  name,
+              email,
+              role,
+              phone,
+              birth_date,
+              gender,
+              cpf,
+              blood_type,
+              cep,
+              address,
+              city,
+              state,
+              availability,
+              skills,
+              emergency_contact,
+              created_at,
+              updated_at
+      FROM users 
+      WHERE email = ?
+    `,
       [email]
     );
     // @ts-ignore
@@ -141,10 +199,31 @@ export class User {
     return user ? new User(user) : null;
   }
 
-  static async findByCPF(cpf: string): Promise<User | null> {
-    const [rows] = await connection.query("SELECT * FROM users WHERE cpf = ?", [
-      cpf,
-    ]);
+  static async findByCPF(cpf: string): Promise<Omit<User, "password"> | null> {
+    const [rows] = await connection.query(
+      `
+        SELECT  name,
+              email,
+              role,
+              phone,
+              birth_date,
+              gender,
+              cpf,
+              blood_type,
+              cep,
+              address,
+              city,
+              state,
+              availability,
+              skills,
+              emergency_contact,
+              created_at,
+              updated_at
+      FROM users 
+      WHERE cpf = ?
+      `,
+      [cpf]
+    );
     // @ts-ignore
     const user = rows[0];
     return user ? new User(user) : null;
