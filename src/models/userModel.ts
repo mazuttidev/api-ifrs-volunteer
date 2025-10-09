@@ -2,14 +2,14 @@ import connection from "../config/database";
 
 export class User {
   id?: string;
-  name: string;
-  email: string;
-  password: string;
-  role: "admin" | "organizer" | "volunteer";
+  name?: string;
+  email?: string;
+  password?: string;
+  role?: "admin" | "organizer" | "volunteer";
   phone?: string | null;
   birth_date?: Date | null;
-  gender?: "M" | "F" | "O";
-  cpf: string;
+  gender?: "M" | "F" | "O" | null;
+  cpf?: string;
   blood_type?: string | null;
   cep?: string | null;
   address?: string | null;
@@ -21,7 +21,7 @@ export class User {
   created_at?: Date;
   updated_at?: Date;
 
-  constructor(data: any) {
+  constructor(data: Partial<User>) {
     this.id = data.id;
     this.name = data.name;
     this.email = data.email;
