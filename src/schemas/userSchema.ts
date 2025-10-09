@@ -20,6 +20,7 @@ function isValidCPF(cpf: string): boolean {
 }
 
 export const userSchema = z.object({
+  id : z.string().optional(),
   name: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(150, "Nome deve ter no máximo 150 caracteres"),
   email: z.string().email(),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
