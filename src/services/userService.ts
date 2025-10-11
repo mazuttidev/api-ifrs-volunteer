@@ -3,14 +3,15 @@ import { User } from "../types/User";
 import { User as userModel } from "../models/userModel";
 
 export const registerUser = async (data: Omit<User, "id">): Promise<string> => {
-  const user = new userModel(data);
+  if (!data.password || !data.name || !data.email || !data.cpf) throw new Error("Os campos nome, e-mail e senha são obrigatórios.");
   let existingUser = await userModel.findByEmail(data.email!);
   if (existingUser) throw new Error("E-mail já cadastrado.");
   existingUser = await userModel.findByCPF(data.cpf!);
   if (existingUser) throw new Error("CPF já cadastrado.");
 
-    let hashedPassword = await bcrypt.hash(user.password!, 10);
-    user.password! = hashedPassword;
+  let hashedPassword = await bcrypt.hash(data.password, 10);
+  data.password = hashedPassword;
+  const user = new userModel(data);
 
   let insertId = await user.save();
 
