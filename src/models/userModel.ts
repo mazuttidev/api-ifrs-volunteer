@@ -1,4 +1,5 @@
 import connection from "../config/database";
+import bcrypt from "bcryptjs";
 
 export class User {
   id?: string;
@@ -175,20 +176,7 @@ export class User {
       SELECT  name,
               email,
               role,
-              phone,
-              birth_date,
-              gender,
-              cpf,
-              blood_type,
-              cep,
-              address,
-              city,
-              state,
-              availability,
-              skills,
-              emergency_contact,
-              created_at,
-              updated_at
+              password
       FROM users 
       WHERE email = ?
     `,
@@ -227,5 +215,9 @@ export class User {
     // @ts-ignore
     const user = rows[0];
     return user ? new User(user) : null;
+  }
+
+  async checkPassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password!);   
   }
 }

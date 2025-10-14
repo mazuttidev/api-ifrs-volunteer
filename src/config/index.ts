@@ -11,4 +11,5 @@ export const config = {
         port: process.env.DB_PORT || 3306,
     },
     jwtSecret: process.env.JWT_SECRET || 'volunteers_default_secret',
+    jwtExpiresIn: "1d",
 };

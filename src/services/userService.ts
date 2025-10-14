@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { User } from "../types/User";
 import { User as userModel } from "../models/userModel";
 
-export const registerUser = async (data: Omit<User, "id">): Promise<string> => {
+export const registerUser = async (data: Partial<User>): Promise<string> => {
   if (!data.password || !data.name || !data.email || !data.cpf) throw new Error("Os campos nome, e-mail e senha são obrigatórios.");
   let existingUser = await userModel.findByEmail(data.email!);
   if (existingUser) throw new Error("E-mail já cadastrado.");
@@ -12,7 +12,6 @@ export const registerUser = async (data: Omit<User, "id">): Promise<string> => {
   let hashedPassword = await bcrypt.hash(data.password, 10);
   data.password = hashedPassword;
   const user = new userModel(data);
-
   let insertId = await user.save();
 
   return insertId;
