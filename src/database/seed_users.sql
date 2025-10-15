@@ -1,0 +1,5 @@
+INSERT INTO users (name, email, password, role, phone, birth_date, gender, cpf, blood_type, cep, address, city, state, availability, skills, emergency_contact)
+VALUES
+('Alice Admin', 'alice.admin@example.com', 'senhaAdmin123', 'admin', '11990001122', '1985-01-10', 'F', '111.222.333-44', 'O+', '01001-000', 'Rua Admin, 123', 'São Paulo', 'SP', 'Segunda a sexta, manhãs', 'Gestão, organização', 'João - 11998887766'),
+('Oscar Organizer', 'oscar.organizer@example.com', 'senhaOrg123', 'organizer', '11990002233', '1990-05-20', 'M', '555.666.777-88', 'A+', '02002-000', 'Avenida Organizer, 456', 'Rio de Janeiro', 'RJ', 'Segunda a sexta, tardes', 'Organização de eventos, logística', 'Maria - 21997766555'),
+('Vinicius Volunteer', 'vinicius.volunteer@example.com', 'senhaVol123', 'volunteer', '11990003344', '1995-09-15', 'M', '999.888.777-66', 'B+', '03003-000', 'Rua Volunteer, 789', 'Porto Alegre', 'RS', 'Finais de semana, manhãs', 'Atendimento ao público, primeiros socorros', 'Fernanda - 51998887766');
