@@ -1,0 +1,528 @@
+{
+	"info": {
+		"_postman_id": "7f16b067-125c-484f-ab98-ff0c9904df95",
+		"name": "DoeTempo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40531261",
+		"_collection_link": "https://mazutti.postman.co/workspace/api-pet-adoption~c7de63c2-8fc2-41e0-b785-cd32c728fa36/collection/40531261-7f16b067-125c-484f-ab98-ff0c9904df95?action=share&source=collection_link&creator=40531261"
+	},
+	"item": [
+		{
+			"name": "Obter Usuários",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6InZvbHVudGVlciIsImlhdCI6MTc2MDQwMjAxMiwiZXhwIjoxNzYwNDg4NDEyfQ.LW_f_j4nA-3EPF20_2YN3nYmfWAZvaBhM_MEJzlVefE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Usuário",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Lucas Andrade\",\n  \"email\": \"lucas.andrade@example.com\",\n  \"password\": \"senhaSegura2025!\",\n  \"role\": \"volunteer\",\n  \"phone\": \"11987654321\",\n  \"birth_date\": \"1992-03-15\",\n  \"gender\": \"M\",\n  \"cpf\": \"154.450.790-90\",\n  \"blood_type\": \"A+\",\n  \"cep\": \"95708-446\",\n  \"address\": \"Avenida Central, 789\",\n  \"city\": \"São Paulo\",\n  \"state\": \"SP\",\n  \"availability\": \"Finais de semana, manhãs\",\n  \"skills\": \"Comunicação, primeiros socorros, atendimento ao público\",\n  \"emergency_contact\": \"Juliana Souza - (11) 97777-8888\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:3000/users \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Victor Mazutti\",\n    \"email\": \"victor@ifrs.edu.br\",\n    \"password\": \"123456\"\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter usuário pelo id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTc2MDQwMjIwNywiZXhwIjoxNzYwNDg4NjA3fQ.lGydXucPynRAWCh97XznMy2c4w9q0TNPx0Fm5eP8B1E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Victor Mazutti\",\n    \"email\": \"victor@example.com\",\n    \"password\": \"minhasenha123\",\n    \"role\": \"organizer\",\n    \"phone\": \"51999999999\",\n    \"birth_date\": \"1995-09-01\",\n    \"gender\": \"M\",\n    \"cpf\": \"041-237-890-64\",\n    \"blood_type\": \"O+\",\n    \"address\": \"Rua das Flores, 123\",\n    \"city\": \"Porto Alegre\",\n    \"state\": \"RS\",\n    \"availability\": \"Segunda a sexta, tardes\",\n    \"skills\": \"Organização, logística, comunicação\",\n    \"emergency_contact\": \"Maria - (51) 98888-7777\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/users/6",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Usuário",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Fernanda Lima\",\n  \"email\": \"fernanda.lima@example.com\",\n  \"password\": \"senhaForte2025!\",\n  \"role\": \"volunteer\",\n  \"phone\": \"51988776655\",\n  \"birth_date\": \"1990-07-22\",\n  \"gender\": \"F\",\n  \"cpf\": \"663.390.650-15\",\n  \"blood_type\": \"B-\",\n  \"cep\": \"90040-123\",\n  \"address\": \"Avenida das Acácias, 456\",\n  \"city\": \"Porto Alegre\",\n  \"state\": \"RS\",\n  \"availability\": \"Segunda a sexta, manhãs\",\n  \"skills\": \"Primeiros socorros, comunicação, logística\",\n  \"emergency_contact\": \"Carlos - (51) 99999-1111\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users/7",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"7"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Alterar Usuário",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Victor Mazutti\",\n    \"email\": \"victor2@example.com\",\n    \"password\": \"minhasenha123\",\n    \"role\": \"organizer\",\n    \"phone\": \"51999999999\",\n    \"birth_date\": \"1995-09-01\",\n    \"gender\": \"M\",\n    \"cpf\": \"567.925.650-91\",\n    \"blood_type\": \"O+\",\n    \"cep\": \"95708-446\",\n    \"address\": \"Rua das Flores, 123\",\n    \"city\": \"Porto Alegre\",\n    \"state\": \"RS\",\n    \"availability\": \"Segunda a sexta, tardes\",\n    \"skills\": \"Organização, logística, comunicação\",\n    \"emergency_contact\": \"Maria - (51) 98888-7777\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/7",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"7"
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date",
+							"domain": "",
+							"path": ""
+						}
+					],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Bruno Carvalho\",\n  \"email\": \"bruno.carvalho@example.com\",\n  \"password\": \"Bruno#2025Seg!\",\n  \"role\": \"volunteer\",\n  \"phone\": \"21981234567\",\n  \"birth_date\": \"1988-07-22\",\n  \"gender\": \"M\",\n  \"cpf\": \"913.158.924-30\",\n  \"blood_type\": \"O-\",\n  \"cep\": \"22041-001\",\n  \"address\": \"Rua das Laranjeiras, 123, Apt 12\",\n  \"city\": \"Rio de Janeiro\",\n  \"state\": \"RJ\",\n  \"availability\": \"Noites de semana, finais de semana\",\n  \"skills\": \"Logística, primeiros socorros, suporte técnico\",\n  \"emergency_contact\": \"Carla Mendes - (21) 99888-7766\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/register",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"bruno.carvalho@example.com\",\n  \"password\": \"Bruno#2025Seg!\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/auth/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Evento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTc2MDQ5MjM4OSwiZXhwIjoxNzYwNTc4Nzg5fQ.V_Xv0JqYHLe83PBvOHCwEu0bM_XyvTfWF77KzV5PM0E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Campanha de Doação de Sangue\",\n  \"description\": \"Ação solidária em parceria com o Hemocentro.\",\n  \"event_type_id\": 1,\n  \"location\": \"IFRS Campus Bento Gonçalves\",\n  \"address\": \"Rua Exemplo, 123\",\n  \"start_at\": \"2025-11-01T09:00:00\",\n  \"end_at\": \"2025-11-01T17:00:00\",\n  \"capacity\": 100,\n  \"status\": \"draft\",\n  \"created_by\": 6\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/events/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Evento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTc2MDQ5MjM4OSwiZXhwIjoxNzYwNTc4Nzg5fQ.V_Xv0JqYHLe83PBvOHCwEu0bM_XyvTfWF77KzV5PM0E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Campanha de Doação de Sangue - Atualizada\",\n  \"description\": \"Ação solidária com coffee break para voluntários.\",\n  \"end_at\": \"2025-11-01T18:00:00\",\n  \"capacity\": 120,\n  \"status\": \"published\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/events/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"events",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obter evento pelo id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/events/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"events",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obter eventos",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/events",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir um evento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTc2MDQ5MjM4OSwiZXhwIjoxNzYwNTc4Nzg5fQ.V_Xv0JqYHLe83PBvOHCwEu0bM_XyvTfWF77KzV5PM0E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/events/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"events",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adicionar Participante em evento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTc2MDQ5MjM4OSwiZXhwIjoxNzYwNTc4Nzg5fQ.V_Xv0JqYHLe83PBvOHCwEu0bM_XyvTfWF77KzV5PM0E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"event_id\": 2,\n    \"user_id\": 7,\n    \"role_in_event\": \"participant\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/event-participants",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"event-participants"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:3000/event-participants \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer {{token}}\" \\\n  -d '{\n        \"event_id\": 1,\n        \"user_id\": 2,\n        \"role_in_event\": \"participant\"\n      }'\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Participantes em Eventos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTc2MDQ5MjM4OSwiZXhwIjoxNzYwNTc4Nzg5fQ.V_Xv0JqYHLe83PBvOHCwEu0bM_XyvTfWF77KzV5PM0E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/event-participants/2",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"event-participants",
+						"2"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET http://localhost:3000/event-participants/1 \\\n  -H \"Authorization: Bearer {{token}}\"\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir participante do evento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vLmNhcnZhbGhvQGV4YW1wbGUuY29tIiwicm9sZSI6Im9yZ2FuaXplciIsImlhdCI6MTc2MDQ5MjM4OSwiZXhwIjoxNzYwNTc4Nzg5fQ.V_Xv0JqYHLe83PBvOHCwEu0bM_XyvTfWF77KzV5PM0E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/event-participants/2/7",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"event-participants",
+						"2",
+						"7"
+					]
+				},
+				"description": "Generated from cURL: curl -X DELETE http://localhost:3000/event-participants/1/2 \\\n  -H \"Authorization: Bearer {{token}}\"\n"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
