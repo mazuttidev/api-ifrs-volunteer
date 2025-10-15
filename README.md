@@ -16,54 +16,6 @@ API RESTful para gerenciar **voluntários** e **eventos sociais** do IFRS, const
 
 ---
 
-## 📂 Estrutura do Projeto
-
-```bash
-src/
-│
-├─ config/
-│ ├─ database.ts # Configuração do MySQL
-│ └─ index.ts # Configurações gerais
-│
-├─ models/
-│ ├─ UserModel.ts
-│ ├─ EventModel.ts
-│ └─ EventParticipantModel.ts
-│
-├─ services/
-│ ├─ userService.ts
-│ ├─ authService.ts
-│ ├─ eventService.ts
-│ └─ eventParticipantService.ts
-│
-├─ controllers/
-│ ├─ userController.ts
-│ ├─ authController.ts
-│ ├─ eventController.ts
-│ └─ eventParticipantController.ts
-│
-├─ routes/
-│ ├─ userRoutes.ts
-│ ├─ authRoutes.ts
-│ ├─ eventRoutes.ts
-│ └─ eventParticipantRoutes.ts
-│
-├─ schemas/
-│ ├─ userSchema.ts
-│ ├─ eventSchema.ts
-│ └─ eventParticipantSchema.ts
-│
-├─ middlewares/
-│ └─ authMiddleware.ts
-│
-└─ types/
-├─ User.ts
-├─ Event.ts
-└─ EventParticipant.ts
-```
-
----
-
 ## ⚙️ Instalação
 
 1. Clone o repositório:  
@@ -93,14 +45,15 @@ npm run dev
 
 Login: /auth/login → Retorna um JWT
 
-Register (usuário): /users/register
+Register (usuário): /auth/register
 
 ## 📋 Endpoints Principais (Disponível via swagger)
 
 | Método | Endpoint          | Descrição                |
 | ------ | ----------------- | ------------------------ |
-| POST   | `/users/register` | Registrar usuário        |
+| POST   | `/auth/register`  | Registrar usuário        |
 | POST   | `/auth/login`     | Login de usuário         |
+| POST   | `/users`          | Cria usuário             |
 | GET    | `/users`          | Listar todos os usuários |
 | GET    | `/users/:id`      | Buscar usuário por ID    |
 | PUT    | `/users/:id`      | Atualizar usuário        |
