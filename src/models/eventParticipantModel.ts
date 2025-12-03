@@ -1,63 +1,83 @@
-import connection from "../config/database";
+import { PrismaClient, ParticipantRole, ParticipantStatus } from "@prisma/client";
 
-export class EventParticipant {
+const prisma = new PrismaClient();
+
+export class EventParticipantModel {
   id?: number;
-  event_id: number;
-  user_id: number;
-  role_in_event: "participant" | "volunteer_coordinator";
-  status: "registered" | "attended" | "no_show" | "cancelled";
+  event_id!: number;
+  user_id!: number;
+  role_in_event!: ParticipantRole;
+  status!: ParticipantStatus;
   checkin_at?: Date | null;
-  registered_at?: Date;
-  updated_at?: Date;
 
-  constructor(data: Partial<EventParticipant>) {
+  constructor(data: Partial<EventParticipantModel>) {
     this.event_id = data.event_id!;
     this.user_id = data.user_id!;
-    this.role_in_event = data.role_in_event ?? "participant";
-    this.status = data.status ?? "registered";
+    this.role_in_event = (data.role_in_event as ParticipantRole) ?? "participant";
+    this.status = (data.status as ParticipantStatus) ?? "registered";
     this.checkin_at = data.checkin_at ?? null;
   }
 
+  /* -----------------------------------------
+   * SAVE (CREATE)
+   * -----------------------------------------
+   */
   async save(): Promise<number> {
-    const query = `
-      INSERT INTO event_participants
-        (event_id, user_id, role_in_event, status, checkin_at, registered_at)
-      VALUES (?, ?, ?, ?, ?, NOW())
-    `;
-    const [result] = await connection.query(query, [
-      this.event_id,
-      this.user_id,
-      this.role_in_event,
-      this.status,
-      this.checkin_at,
-    ]);
+    const participant = await prisma.eventParticipant.create({
+      data: {
+        event_id: this.event_id,
+        user_id: this.user_id,
+        role_in_event: this.role_in_event,
+        status: this.status,
+        checkin_at: this.checkin_at,
+      },
+    });
 
-    // @ts-ignore
-    return result.insertId;
+    return participant.id;
   }
 
+  /* -----------------------------------------
+   * FIND BY EVENT + USER
+   * -----------------------------------------
+   */
   static async findByEventAndUser(event_id: number, user_id: number) {
-    const [rows] = await connection.query(
-      "SELECT * FROM event_participants WHERE event_id = ? AND user_id = ?",
-      [event_id, user_id]
-    );
-    // @ts-ignore
-    return rows[0];
+    return prisma.eventParticipant.findFirst({
+      where: { event_id, user_id },
+      include: {
+        user: { select: { id: true, name: true, email: true, phone: true } },
+        event: { select: { id: true, title: true, start_at: true } },
+      },
+    });
   }
 
+  /* -----------------------------------------
+   * FIND ALL BY EVENT
+   * -----------------------------------------
+   */
   static async findByEvent(event_id: number) {
-    const [rows] = await connection.query(
-      "SELECT * FROM event_participants WHERE event_id = ?",
-      [event_id]
-    );
-    // @ts-ignore
-    return rows;
+    return prisma.eventParticipant.findMany({
+      where: { event_id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+          },
+        },
+      },
+      orderBy: { registered_at: "asc" },
+    });
   }
 
+  /* -----------------------------------------
+   * DELETE
+   * -----------------------------------------
+   */
   static async delete(event_id: number, user_id: number) {
-    await connection.query(
-      "DELETE FROM event_participants WHERE event_id = ? AND user_id = ?",
-      [event_id, user_id]
-    );
+    await prisma.eventParticipant.deleteMany({
+      where: { event_id, user_id },
+    });
   }
 }

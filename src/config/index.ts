@@ -10,6 +10,6 @@ export const config = {
         database: process.env.DB_NAME || '',
         port: process.env.DB_PORT || 3306,
     },
-    jwtSecret: process.env.JWT_SECRET || 'volunteers_default_secret',
-    jwtExpiresIn: "1d",
+    jwtSecret: process.env.JWT_SECRET || 'volunteers_default_secret' as string,
+    jwtExpiresIn: "1d" as string,
 };

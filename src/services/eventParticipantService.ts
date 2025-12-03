@@ -1,4 +1,4 @@
-import { EventParticipant } from "../models/eventParticipantModel";
+import { EventParticipantModel as EventParticipant } from "../models/eventParticipantModel";
 
 export const registerParticipant = async (data: Partial<EventParticipant>) => {
   const existing = await EventParticipant.findByEventAndUser(data.event_id!, data.user_id!);

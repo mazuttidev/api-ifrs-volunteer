@@ -1,0 +1,148 @@
+
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+/* ---------- ENUMS ---------- */
+
+enum UserRole {
+  admin
+  organizer
+  volunteer
+}
+
+enum Gender {
+  M
+  F
+  O
+}
+
+enum BloodType {
+  A_pos @map("A+")
+  A_neg @map("A-")
+  B_pos @map("B+")
+  B_neg @map("B-")
+  AB_pos @map("AB+")
+  AB_neg @map("AB-")
+  O_pos @map("O+")
+  O_neg @map("O-")
+}
+
+enum EventStatus {
+  draft
+  published
+  closed
+  cancelled
+}
+
+enum ParticipantRole {
+  participant
+  volunteer_coordinator
+}
+
+enum ParticipantStatus {
+  registered
+  attended
+  no_show
+  cancelled
+}
+
+/* ---------- MODELS ---------- */
+
+model User {
+  id                Int        @id @default(autoincrement())
+  name              String
+  email             String     @unique
+  password          String
+  role              UserRole   @default(volunteer)
+  phone             String?
+  birth_date        DateTime?
+  gender            Gender?
+  cpf               String?    @unique
+  blood_type        BloodType?
+  cep               String?
+  address           String?
+  city              String?
+  state             String?
+  availability      String?
+  skills            String?
+  emergency_contact String?
+  created_at        DateTime   @default(now())
+  updated_at        DateTime?
+
+  events_created    Event[]            @relation("EventCreatedBy")
+  event_participations EventParticipant[]
+  audit_logs        AuditLog[]
+  event_views       EventView[]
+}
+
+model EventType {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  description String?
+
+  events      Event[]
+}
+
+model Event {
+  id            Int        @id @default(autoincrement())
+  title         String
+  description   String?
+  event_type_id Int?
+  location      String?
+  address       String?
+  start_at      DateTime
+  end_at        DateTime?
+  capacity      Int?
+  status        EventStatus @default(draft)
+  created_by    Int?
+  created_at    DateTime    @default(now())
+  updated_at    DateTime?
+
+  event_type    EventType?  @relation(fields: [event_type_id], references: [id])
+  created_by_user User?      @relation("EventCreatedBy", fields: [created_by], references: [id])
+  participants   EventParticipant[]
+  views          EventView[]
+}
+
+model EventParticipant {
+  id            Int                @id @default(autoincrement())
+  event_id      Int
+  user_id       Int
+  role_in_event ParticipantRole    @default(participant)
+  status        ParticipantStatus  @default(registered)
+  checkin_at    DateTime?
+  registered_at DateTime           @default(now())
+  updated_at    DateTime?
+
+  event         Event    @relation(fields: [event_id], references: [id])
+  user          User     @relation(fields: [user_id], references: [id])
+}
+
+model AuditLog {
+  id            Int      @id @default(autoincrement())
+  actor_user_id Int
+  action        String
+  resource_type String
+  resource_id   Int
+  payload       Json
+  created_at    DateTime @default(now())
+
+  user          User     @relation(fields: [actor_user_id], references: [id])
+}
+
+model EventView {
+  id        Int      @id @default(autoincrement())
+  event_id  Int
+  user_id   Int?
+  viewed_at DateTime @default(now())
+
+  event     Event    @relation(fields: [event_id], references: [id])
+  user      User?    @relation(fields: [user_id], references: [id])
+}

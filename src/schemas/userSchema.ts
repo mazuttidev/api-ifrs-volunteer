@@ -20,28 +20,58 @@ function isValidCPF(cpf: string): boolean {
 }
 
 export const userSchema = z.object({
-  id : z.string().optional(),
-  name: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(150, "Nome deve ter no máximo 150 caracteres"),
+  id: z.number().optional(),
+
+  name: z
+    .string()
+    .min(3, "Nome deve ter pelo menos 3 caracteres")
+    .max(150, "Nome deve ter no máximo 150 caracteres"),
+
   email: z.string().email(),
+
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
-  role: z.enum(["admin", "organizer", "volunteer"]),
+
+  role: z.enum(["admin", "organizer", "volunteer"]).default("volunteer"),
+
   phone: z.string().optional(),
-  birth_date: z.preprocess((val) => {
-    if (!val) return undefined;
-    const d = new Date(val as string);
-    return isNaN(d.getTime()) ? undefined : d; // retorna undefined se inválido
-  }, z.date().optional()),
+
+  birth_date: z
+    .preprocess((val) => {
+      if (!val) return undefined;
+      const d = new Date(val as string);
+      return isNaN(d.getTime()) ? undefined : d;
+    }, z.date().optional()),
+
   gender: z.enum(["M", "F", "O"]).optional(),
-  cpf: z.string().refine(isValidCPF, {message: "CPF inválido"}),
+
+  cpf: z
+    .string()
+    .min(11)
+    .refine(isValidCPF, { message: "CPF inválido" }),
+
   blood_type: z
     .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
     .optional(),
+
   address: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
+
   availability: z.string().optional(),
   skills: z.string().optional(),
+
   emergency_contact: z.string().optional(),
 });
 
-export const updateUserSchema = userSchema.partial();
+export const updateUserSchema = userSchema.partial().extend({
+  cpf: z
+    .string()
+    .optional()
+    .refine((cpf) => !cpf || isValidCPF(cpf), {
+      message: "CPF inválido",
+    }),
+  password: z
+    .string()
+    .min(6, "Senha deve ter pelo menos 6 caracteres")
+    .optional(),
+});
