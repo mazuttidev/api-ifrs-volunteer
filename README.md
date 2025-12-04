@@ -40,7 +40,7 @@ utilizando modernas ferramentas como **Prisma ORM**, **Zod**, **JWT**,
 1.  Clone o repositório:
 
 ``` bash
-git clone https://github.com/seu-usuario/ifrs-voluntariado-api.git
+git clone https://github.com/mazuttidev/api-ifrs-volunteer.git
 cd ifrs-voluntariado-api
 ```
 
