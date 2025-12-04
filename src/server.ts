@@ -6,6 +6,9 @@ import eventRoutes from "./routes/eventRoutes";
 import eventParticipantRoutes from "./routes/eventParticipantRoutes";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
+import { requestLogger } from "./middlewares/requestLogger";
+import { errorHandler } from "./middlewares/errorHandler";
+
 
 const app = express();
 
@@ -22,7 +25,8 @@ app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/events", eventRoutes);
 app.use("/event-participants", eventParticipantRoutes);
-
+app.use(errorHandler);
+app.use(requestLogger);
 app.listen(3000, () => {
   console.log("Servidor rodando na porta 3000");
 });

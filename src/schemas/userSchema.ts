@@ -1,77 +1,89 @@
 import { z } from "zod";
 
 function isValidCPF(cpf: string): boolean {
-  cpf = cpf.replace(/\D/g, "");
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    cpf = cpf.replace(/\D/g, "");
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
-  let soma = 0;
-  for (let i = 0; i < 9; i++) soma += parseInt(cpf[i]) * (10 - i);
-  let resto = (soma * 10) % 11;
-  if (resto === 10) resto = 0;
-  if (resto !== parseInt(cpf[9])) return false;
+    let soma = 0;
+    for (let i = 0; i < 9; i++) soma += parseInt(cpf[i]) * (10 - i);
+    let resto = (soma * 10) % 11;
+    if (resto === 10) resto = 0;
+    if (resto !== parseInt(cpf[9])) return false;
 
-  soma = 0;
-  for (let i = 0; i < 10; i++) soma += parseInt(cpf[i]) * (11 - i);
-  resto = (soma * 10) % 11;
-  if (resto === 10) resto = 0;
-  if (resto !== parseInt(cpf[10])) return false;
+    soma = 0;
+    for (let i = 0; i < 10; i++) soma += parseInt(cpf[i]) * (11 - i);
+    resto = (soma * 10) % 11;
+    if (resto === 10) resto = 0;
+    if (resto !== parseInt(cpf[10])) return false;
 
-  return true;
+    return true;
 }
 
 export const userSchema = z.object({
-  id: z.number().optional(),
+    id: z.coerce.number().optional(),
 
-  name: z
-    .string()
-    .min(3, "Nome deve ter pelo menos 3 caracteres")
-    .max(150, "Nome deve ter no máximo 150 caracteres"),
+    name: z
+        .string()
+        .min(3, "Nome deve ter pelo menos 3 caracteres")
+        .max(150, "Nome deve ter no máximo 150 caracteres"),
 
-  email: z.string().email(),
+    email: z.string().email(),
 
-  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+    password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 
-  role: z.enum(["admin", "organizer", "volunteer"]).default("volunteer"),
+    role: z.enum(["admin", "organizer", "volunteer"]).default("volunteer"),
 
-  phone: z.string().optional(),
+    phone: z.string().optional(),
 
-  birth_date: z
-    .preprocess((val) => {
-      if (!val) return undefined;
-      const d = new Date(val as string);
-      return isNaN(d.getTime()) ? undefined : d;
+    birth_date: z.preprocess((val) => {
+        if (!val) return undefined;
+        const d = new Date(val as string);
+        return isNaN(d.getTime()) ? undefined : d;
     }, z.date().optional()),
 
-  gender: z.enum(["M", "F", "O"]).optional(),
+    gender: z.enum(["M", "F", "O"]).optional(),
 
-  cpf: z
-    .string()
-    .min(11)
-    .refine(isValidCPF, { message: "CPF inválido" }),
+    cpf: z.string().min(11).refine(isValidCPF, { message: "CPF inválido" }),
 
-  blood_type: z
-    .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
-    .optional(),
+    blood_type: z
+        .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+        .optional()
+        .transform((val) => {
+            if (!val) return null;
 
-  address: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
+            const map: Record<string, string> = {
+                "A+": "A_pos",
+                "A-": "A_neg",
+                "B+": "B_pos",
+                "B-": "B_neg",
+                "AB+": "AB_pos",
+                "AB-": "AB_neg",
+                "O+": "O_pos",
+                "O-": "O_neg",
+            };
 
-  availability: z.string().optional(),
-  skills: z.string().optional(),
+            return map[val] ?? null;
+        }),
 
-  emergency_contact: z.string().optional(),
+    address: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+
+    availability: z.string().optional(),
+    skills: z.string().optional(),
+
+    emergency_contact: z.string().optional(),
 });
 
 export const updateUserSchema = userSchema.partial().extend({
-  cpf: z
-    .string()
-    .optional()
-    .refine((cpf) => !cpf || isValidCPF(cpf), {
-      message: "CPF inválido",
-    }),
-  password: z
-    .string()
-    .min(6, "Senha deve ter pelo menos 6 caracteres")
-    .optional(),
+    cpf: z
+        .string()
+        .optional()
+        .refine((cpf) => !cpf || isValidCPF(cpf), {
+            message: "CPF inválido",
+        }),
+    password: z
+        .string()
+        .min(6, "Senha deve ter pelo menos 6 caracteres")
+        .optional(),
 });
